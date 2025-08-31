@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZAKLAB</title>
+  <title>ZakLab - home</title>
+  <link rel="icon" type="image/x-icon" href="z.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
@@ -271,14 +272,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .content-section p {
-      font-size: 24px;
-      color: #A1A1AA;
-      font-weight: 400;
+      gap: 40px;
     }
 
     .footer {
@@ -362,6 +356,10 @@
 
   <div class="sidebar" id="sidebar">
     <div class="sidebar-content">
+      <div class="sidebar-section" onclick="window.location.href='News'">
+        <span>News</span>
+        <div class="arrow">></div>
+      </div>
       <div class="sidebar-section" onclick="window.location.href='Explore'">
         <span>Explore</span>
         <div class="arrow">></div>
@@ -388,7 +386,6 @@
 
   <div class="main-content">
     <div class="content-section">
-      <p>Future contents</p>
     </div>
   </div>
 
@@ -402,6 +399,11 @@
 
   <script>
     const pagesDatabase = [
+      {
+        title: "News",
+        url: "News",
+        description: ""
+      },
       {
         title: "Explore",
         url: "Explore",
