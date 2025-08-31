@@ -271,14 +271,112 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
+      gap: 40px;
     }
 
-    .content-section p {
+    .video-player {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .video-player video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .video-controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      gap: 10px;
+    }
+
+    .video-controls button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .video-controls button:hover {
+      color: #8B00FF;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 5px;
+      background: #333;
+      border-radius: 5px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .progress {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(135deg, #8B00FF, #1E3A8A);
+      transition: width 0.1s linear;
+    }
+
+    .article-cover {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-radius: 12px;
+    }
+
+    .article-cover:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-5px);
+    }
+
+    .article-meta {
+      flex: 0 0 150px;
+      font-size: 14px;
+      background: linear-gradient(135deg, #8B00FF, #1E3A8A);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .article-image {
+      flex: 0 0 300px;
+      margin: 0 20px;
+    }
+
+    .article-image img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .article-title h2 {
       font-size: 24px;
-      color: #A1A1AA;
-      font-weight: 400;
+      font-weight: 700;
+      background: linear-gradient(135deg, #8B00FF, #1E3A8A);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .footer {
@@ -351,6 +449,30 @@
         padding: 8px 16px;
         font-size: 12px;
       }
+
+      .article-cover {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+      }
+
+      .article-image {
+        flex: 0 0 auto;
+        width: 100%;
+        margin: 10px 0;
+      }
+
+      .article-image img {
+        height: 150px;
+      }
+
+      .article-meta {
+        flex: 0 0 auto;
+      }
+
+      .article-title h2 {
+        font-size: 20px;
+      }
     }
   </style>
 </head>
@@ -362,6 +484,10 @@
 
   <div class="sidebar" id="sidebar">
     <div class="sidebar-content">
+      <div class="sidebar-section" onclick="window.location.href='News'">
+        <span>News</span>
+        <div class="arrow">></div>
+      </div>
       <div class="sidebar-section" onclick="window.location.href='Explore'">
         <span>Explore</span>
         <div class="arrow">></div>
@@ -388,7 +514,127 @@
 
   <div class="main-content">
     <div class="content-section">
-      <p>Future contents</p>
+      <div class="video-player">
+        <video id="videoPlayer" src="1.mp4"></video>
+        <div class="video-controls">
+          <button id="prevBtn"><i class="fas fa-backward"></i></button>
+          <button id="playPauseBtn"><i class="fas fa-play"></i></button>
+          <div class="progress-bar" id="progressBar">
+            <div class="progress" id="progress"></div>
+          </div>
+          <button id="nextBtn"><i class="fas fa-forward"></i></button>
+        </div>
+      </div>
+      <a href="Melaisserchoisir" class="article-cover">
+        <div class="article-meta">
+          <span>6 min • 1,500 mots</span>
+        </div>
+        <div class="article-image">
+          <img src="article1.png" alt="Article 1">
+        </div>
+        <div class="article-title">
+          <h2>Learn more about the story of MineRuns.</h2>
+        </div>
+      </a>
+      <a href="Melaisserchoisir" class="article-cover">
+        <div class="article-meta">
+          <span>6 min • 1,500 mots</span>
+        </div>
+        <div class="article-image">
+          <img src="article2.png" alt="Article 2">
+        </div>
+        <div class="article-title">
+          <h2>Discover the secrets of epic builds.</h2>
+        </div>
+      </a>
+      <a href="Melaisserchoisir" class="article-cover">
+        <div class="article-meta">
+          <span>6 min • 1,500 mots</span>
+        </div>
+        <div class="article-image">
+          <img src="article3.png" alt="Article 3">
+        </div>
+        <div class="article-title">
+          <h2>Mastering Redstone mechanics.</h2>
+        </div>
+      </a>
+      <a href="Melaisserchoisir" class="article-cover">
+        <div class="article-meta">
+          <span>6 min • 1,500 mots</span>
+        </div>
+        <div class="article-image">
+          <img src="article4.png" alt="Article 4">
+        </div>
+        <div class="article-title">
+          <h2>Exploring hidden biomes.</h2>
+        </div>
+      </a>
+      <a href="Melaisserchoisir" class="article-cover">
+        <div class="article-meta">
+          <span>6 min • 1,500 mots</span>
+        </div>
+        <div class="article-image">
+          <img src="article5.png" alt="Article 5">
+        </div>
+        <div class="article-title">
+          <h2>The art of survival challenges.</h2>
+        </div>
+      </a>
+      <a href="Melaisserchoisir" class="article-cover">
+        <div class="article-meta">
+          <span>6 min • 1,500 mots</span>
+        </div>
+        <div class="article-image">
+          <img src="article6.png" alt="Article 6">
+        </div>
+        <div class="article-title">
+          <h2>Building futuristic cities.</h2>
+        </div>
+      </a>
+      <a href="Melaisserchoisir" class="article-cover">
+        <div class="article-meta">
+          <span>6 min • 1,500 mots</span>
+        </div>
+        <div class="article-image">
+          <img src="article7.png" alt="Article 7">
+        </div>
+        <div class="article-title">
+          <h2>Crafting legendary weapons.</h2>
+        </div>
+      </a>
+      <a href="Melaisserchoisir" class="article-cover">
+        <div class="article-meta">
+          <span>6 min • 1,500 mots</span>
+        </div>
+        <div class="article-image">
+          <img src="article8.png" alt="Article 8">
+        </div>
+        <div class="article-title">
+          <h2>Adventures in the Nether.</h2>
+        </div>
+      </a>
+      <a href="Melaisserchoisir" class="article-cover">
+        <div class="article-meta">
+          <span>6 min • 1,500 mots</span>
+        </div>
+        <div class="article-image">
+          <img src="article9.png" alt="Article 9">
+        </div>
+        <div class="article-title">
+          <h2>Unlocking ancient ruins.</h2>
+        </div>
+      </a>
+      <a href="Melaisserchoisir" class="article-cover">
+        <div class="article-meta">
+          <span>6 min • 1,500 mots</span>
+        </div>
+        <div class="article-image">
+          <img src="article10.png" alt="Article 10">
+        </div>
+        <div class="article-title">
+          <h2>The history of MineRuns lore.</h2>
+        </div>
+      </a>
     </div>
   </div>
 
@@ -402,6 +648,11 @@
 
   <script>
     const pagesDatabase = [
+      {
+        title: "News",
+        url: "News",
+        description: ""
+      },
       {
         title: "Explore",
         url: "Explore",
@@ -496,6 +747,60 @@
         searchBar.classList.remove('active');
         searchBar.value = '';
       }
+    });
+
+    const videoPlayer = document.getElementById('videoPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const progressBar = document.getElementById('progressBar');
+    const progress = document.getElementById('progress');
+
+    const videos = ['1.mp4', '2.mp4', '3.mp4', '4.mp4', '5.mp4'];
+    let currentVideoIndex = 0;
+
+    function updateVideoSource() {
+      videoPlayer.src = videos[currentVideoIndex];
+      videoPlayer.load();
+      progress.style.width = '0%';
+      playPauseBtn.querySelector('i').className = 'fas fa-play';
+    }
+
+    playPauseBtn.addEventListener('click', () => {
+      if (videoPlayer.paused) {
+        videoPlayer.play();
+        playPauseBtn.querySelector('i').className = 'fas fa-pause';
+      } else {
+        videoPlayer.pause();
+        playPauseBtn.querySelector('i').className = 'fas fa-play';
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
+      updateVideoSource();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+      updateVideoSource();
+    });
+
+    videoPlayer.addEventListener('timeupdate', () => {
+      const progressPercent = (videoPlayer.currentTime / videoPlayer.duration) * 100;
+      progress.style.width = `${progressPercent}%`;
+    });
+
+    progressBar.addEventListener('click', (e) => {
+      const rect = progressBar.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
+      videoPlayer.currentTime = pos * videoPlayer.duration;
+    });
+
+    videoPlayer.addEventListener('ended', () => {
+      currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+      updateVideoSource();
+      videoPlayer.play();
     });
 
     function handleResize() {
