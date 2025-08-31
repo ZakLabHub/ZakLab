@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZakLab - home</title>
+  <link rel="icon" type="image/x-icon" href="z.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @font-face {
+      font-family: 'SKCuber';
+      src: url('sk.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'League Spartan', sans-serif;
+      background-color: #000000;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .static-header {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      z-index: 1002;
+    }
+
+    .logo {
+      font-family: 'SKCuber', sans-serif;
+      font-size: 28px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #8B00FF, #1E3A8A);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+    }
+
+    .toggle-arrow {
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .toggle-arrow.rotate {
+      transform: rotate(90deg);
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 60px;
+      width: 200px;
+      height: calc(100vh - 60px);
+      background-color: #000000;
+      z-index: 1000;
+      transition: width 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar.collapsed {
+      width: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      padding: 0 20px;
+    }
+
+    .sidebar-section {
+      padding: 12px 20px;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #8B00FF, #1E3A8A);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-size: 16px;
+      font-weight: 700;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar-section:hover {
+      background: transparent;
+      border: 2px solid;
+      border-image: linear-gradient(135deg, rgba(139, 0, 255, 0.5), rgba(30, 58, 138, 0.5)) 1;
+      color: white;
+    }
+
+    .sidebar-section:hover .arrow {
+      opacity: 1;
+    }
+
+    .sidebar-section .arrow {
+      position: absolute;
+      right: 15px;
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mini-header {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      z-index: 1001;
+    }
+
+    .search-container {
+      position: relative;
+    }
+
+    .search-icon {
+      font-size: 20px;
+      color: white;
+      cursor: pointer;
+      padding: 8px;
+      transition: all 0.3s ease;
+      border-radius: 8px;
+    }
+
+    .search-icon:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .search-bar {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 250px;
+      padding: 10px 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 25px;
+      color: white;
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      outline: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .search-bar.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .search-bar::placeholder {
+      color: #A1A1AA;
+      font-weight: 700;
+    }
+
+    .search-results {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 250px;
+      background: rgba(0, 0, 0, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      margin-top: 8px;
+      max-height: 300px;
+      overflow-y: auto;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1002;
+    }
+
+    .search-results.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .search-result-item {
+      padding: 12px 16px;
+      color: white;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .search-result-item:last-child {
+      border-bottom: none;
+    }
+
+    .search-result-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .login-btn {
+      background: linear-gradient(135deg, #8B00FF, #1E3A8A);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(139, 0, 255, 0.4);
+    }
+
+    .main-content {
+      margin-left: 200px;
+      padding: 80px 40px;
+      flex: 1;
+      transition: margin-left 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 80px);
+    }
+
+    .sidebar.collapsed ~ .main-content {
+      margin-left: 0;
+    }
+
+    .content-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .footer {
+      background: linear-gradient(135deg, #8B00FF, #1E3A8A);
+      padding: 25px 0;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-top: auto;
+      width: 100%;
+    }
+
+    .social-icon {
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .social-icon:hover {
+      transform: translateY(-3px) scale(1.1);
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 60px;
+        top: 50px;
+      }
+
+      .sidebar.collapsed {
+        width: 0;
+      }
+
+      .main-content {
+        margin-left: 60px;
+        padding: 60px 20px;
+      }
+
+      .static-header {
+        top: 10px;
+        left: 10px;
+      }
+
+      .mini-header {
+        top: 10px;
+        right: 10px;
+        gap: 10px;
+      }
+
+      .search-bar {
+        width: 200px;
+      }
+
+      .search-results {
+        width: 200px;
+      }
+
+      .login-btn {
+        padding: 8px 16px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="static-header">
+    <a href="home" class="logo">ZAKLAB</a>
+    <div class="toggle-arrow" id="toggleArrow">></div>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-content">
+      <div class="sidebar-section" onclick="window.location.href='News'">
+        <span>News</span>
+        <div class="arrow">></div>
+      </div>
+      <div class="sidebar-section" onclick="window.location.href='Explore'">
+        <span>Explore</span>
+        <div class="arrow">></div>
+      </div>
+      <div class="sidebar-section" onclick="window.location.href='Projects'">
+        <span>Projects</span>
+        <div class="arrow">></div>
+      </div>
+      <div class="sidebar-section" onclick="window.location.href='Future'">
+        <span>Future</span>
+        <div class="arrow">></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mini-header">
+    <div class="search-container">
+      <i class="fas fa-search search-icon" id="searchIcon"></i>
+      <input type="text" class="search-bar" id="searchBar" placeholder="Search">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <button class="login-btn" onclick="window.location.href='login'">Log In</button>
+  </div>
+
+  <div class="main-content">
+    <div class="content-section">
+    </div>
+  </div>
+
+  <div class="footer">
+    <i class="fab fa-discord social-icon discord" onclick="window.location.href='discord'"></i>
+    <i class="fab fa-instagram social-icon instagram" onclick="window.open('https://instagram.com/zakmc_1', '_blank')"></i>
+    <i class="fab fa-youtube social-icon youtube" onclick="window.open('https://youtube.com/@ZakMC_1', '_blank')"></i>
+    <i class="fab fa-twitch social-icon twitch" onclick="window.open('https://twitch.tv/zakmc_', '_blank')"></i>
+    <i class="fab fa-pinterest social-icon pinterest" onclick="window.open('https://pinterest.com/Minecraft&Chill', '_blank')"></i>
+  </div>
+
+  <script>
+    const pagesDatabase = [
+      {
+        title: "News",
+        url: "News",
+        description: ""
+      },
+      {
+        title: "Explore",
+        url: "Explore",
+        description: ""
+      },
+      {
+        title: "Projects",
+        url: "Projects",
+        description: ""
+      },
+      {
+        title: "Future",
+        url: "Future",
+        description: ""
+      },
+      {
+        title: "Login",
+        url: "login",
+        description: ""
+      }
+    ];
+
+    const toggleArrow = document.getElementById('toggleArrow');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.querySelector('.main-content');
+    const searchIcon = document.getElementById('searchIcon');
+    const searchBar = document.getElementById('searchBar');
+    const searchResults = document.getElementById('searchResults');
+
+    toggleArrow.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      toggleArrow.classList.toggle('rotate');
+      mainContent.style.marginLeft = sidebar.classList.contains('collapsed') ? '0' : '200px';
+    });
+
+    searchIcon.addEventListener('click', () => {
+      searchBar.classList.toggle('active');
+      if (searchBar.classList.contains('active')) {
+        searchBar.focus();
+      } else {
+        searchResults.classList.remove('show');
+        searchBar.value = '';
+      }
+    });
+
+    searchBar.addEventListener('input', (e) => {
+      const query = e.target.value.trim();
+      if (!query) {
+        searchResults.classList.remove('show');
+        return;
+      }
+
+      const results = pagesDatabase.filter(page =>
+        page.title.toLowerCase().includes(query.toLowerCase())
+      );
+
+      searchResults.innerHTML = '';
+      if (results.length === 0) {
+        searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+      } else {
+        results.forEach(result => {
+          const item = document.createElement('div');
+          item.className = 'search-result-item';
+          item.textContent = result.title;
+          item.addEventListener('click', () => {
+            window.location.href = result.url;
+            searchResults.classList.remove('show');
+            searchBar.value = '';
+            searchBar.classList.remove('active');
+          });
+          searchResults.appendChild(item);
+        });
+      }
+      searchResults.classList.add('show');
+    });
+
+    searchBar.addEventListener('blur', () => {
+      setTimeout(() => {
+        searchResults.classList.remove('show');
+      }, 200);
+    });
+
+    searchBar.addEventListener('focus', () => {
+      if (searchBar.value.trim()) {
+        searchPages(searchBar.value);
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        searchResults.classList.remove('show');
+        searchBar.classList.remove('active');
+        searchBar.value = '';
+      }
+    });
+
+    function handleResize() {
+      if (window.innerWidth <= 768) {
+        if (!sidebar.classList.contains('collapsed')) {
+          sidebar.classList.add('collapsed');
+          toggleArrow.classList.add('rotate');
+          mainContent.style.marginLeft = '0';
+        }
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+  </script>
+</body>
+</html>
